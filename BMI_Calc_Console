@@ -1,0 +1,67 @@
+using System;
+
+namespace BMICalculator
+{
+    class Program
+    {
+        static void Main()
+        {
+            Console.WriteLine("Please enter the following values for the user . . . ");
+
+            Console.Write("Height in inches: ");
+            decimal heightInInches =
+                Convert.ToDecimal(Console.ReadLine());
+
+            Console.Write("Weight in pounds: ");
+            decimal weightInPounds =
+                Convert.ToDecimal(Console.ReadLine());
+
+            Console.Write("Age: ");
+            int age =
+                Convert.ToInt16(Console.ReadLine());
+
+            Console.Write("Resting heart rate: ");
+            double restingHeartRate =
+                Convert.ToDouble(Console.ReadLine());
+
+            decimal weightConversion = weightInPounds * 0.45359237m;
+            decimal heightConversion = heightInInches * 0.0254m;
+
+            decimal bmiTotal = weightConversion / (heightConversion * heightConversion);
+
+            int maxHeartRate = 220 - age;
+            double heartRateReserve;
+
+            Console.WriteLine();
+            Console.WriteLine("The results are in...");
+            Console.WriteLine($"\nBMI: {bmiTotal:0.00} - {getBMI(bmiTotal)}\n");
+            Console.WriteLine("-------------------------------");
+            Console.WriteLine("Exercise Intensity Heart Rates|");
+            Console.WriteLine("-------------------------------");
+            Console.WriteLine("Intensity    Max Heart Rate");
+
+            for (double intensity = 0.50; intensity <= 0.95; intensity += 0.05)
+            {
+                heartRateReserve = maxHeartRate - restingHeartRate;
+                double maxTargetZone = heartRateReserve * intensity;
+                double targetTrainingZone = maxTargetZone + restingHeartRate;
+                Console.WriteLine($"{intensity * 100:0}%       -       {targetTrainingZone,-12:0}");
+            }
+
+            Console.WriteLine("\nPress any key to exit...");
+            Console.ReadKey();
+        }
+
+        static string getBMI(decimal bmiValue)
+        {
+            if (bmiValue <= 18m)
+                return "Underweight";
+            else if (bmiValue >= 18m && bmiValue <= 24m)
+                return "Normal weight";
+            else if (bmiValue >= 25m && bmiValue <= 29m)
+                return "Overweight";
+            else
+                return "Obesity";
+        }
+    }
+}
